@@ -2,7 +2,11 @@ let audioContext;
 let analyser;
 let microphone;
 let isListening = false;
+let listenWindowActive = false;
 let peakVolume = 0;
+let listenTimeoutId = null;
+
+const LISTEN_DURATION_MS = 5000; // 5 seconds
 
 const startBtn = document.getElementById('startBtn');
 const testBtn = document.getElementById('testBtn');
@@ -14,7 +18,7 @@ startBtn.addEventListener('click', async () => {
     if (!isListening) {
         await startMicrophone();
     } else {
-        finishListening();
+        stopMicrophone();
     }
 });
 
@@ -36,15 +40,28 @@ async function startMicrophone() {
         microphone.connect(analyser);
 
         isListening = true;
+        listenWindowActive = true;
         peakVolume = 0;
 
         startBtn.innerText = "🛑 Stop Listening";
         startBtn.classList.add('listening');
-        statusText.innerText = "Status: Listening... click Stop when done 🎧";
+        statusText.innerText = "Status: Listening for 5 seconds... 🎧";
         roastText.innerText = "Go on, crunch away!";
 
+        // End the 5-second listening window
+        listenTimeoutId = setTimeout(() => {
+            listenWindowActive = false;
+            if (peakVolume > 0) {
+                sendVolumeData(peakVolume);
+            } else {
+                statusText.innerText = "Status: Didn't hear much 🤔";
+                roastText.innerText = "Try crunching a bit louder next time!";
+            }
+            stopMicrophone();
+        }, LISTEN_DURATION_MS);
+
         function processAudio() {
-            if (!isListening) return;
+            if (!isListening || !listenWindowActive) return;
 
             analyser.getByteFrequencyData(dataArray);
 
@@ -71,21 +88,19 @@ async function startMicrophone() {
     }
 }
 
-function finishListening() {
+function stopMicrophone() {
     isListening = false;
+    listenWindowActive = false;
+    if (listenTimeoutId) {
+        clearTimeout(listenTimeoutId);
+        listenTimeoutId = null;
+    }
     if (audioContext) {
         audioContext.close();
     }
     startBtn.innerText = "🎤 Start Listening";
     startBtn.classList.remove('listening');
     meterFill.style.width = "0%";
-
-    if (peakVolume > 0) {
-        sendVolumeData(peakVolume);
-    } else {
-        statusText.innerText = "Status: Didn't hear much 🤔";
-        roastText.innerText = "Try crunching a bit louder next time!";
-    }
 }
 
 async function sendVolumeData(volumeValue) {

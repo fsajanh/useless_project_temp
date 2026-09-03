@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crunch Analyzer</title>
+    <title>Savala Kiri Kiri 🌶️</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Crunch Sound Analyzer</h1>
-        <p>Click start to measure volume and get feedback.</p>
+        <h1>🌶️ Savala Kiri Kiri 🌶️</h1>
+        <p class="subtitle">Click start and crunch like nobody's watching.</p>
 
         <div class="controls">
-            <button id="startBtn">Start Listening</button>
-            <button id="testBtn">Send Manual Payload</button>
+            <button id="startBtn" class="pulse">🎤 Start Listening</button>
+            <button id="testBtn">📡 Send Manual Payload</button>
+        </div>
+
+        <div class="meter-wrap">
+            <div id="meterFill" class="meter-fill"></div>
         </div>
 
         <div id="output" class="output-box">
