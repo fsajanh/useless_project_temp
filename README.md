@@ -2,27 +2,26 @@
 
 
 
-# [Project Name] 🎯
+# [] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [perakkkka]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [alka sujith] - [model engineering college]
+- Member 2: [fathimasaja noorulhassan] - [model engineering college]
 - Member 3: [Name] - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+[ever wondered if you are chewing too loud?this website literally tells you how embarising is your chewing noise]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[we create a problem for the solution ]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
-
+[actually nothing]
 ## Technical Details
 ### Technologies/Components Used
 For Software:

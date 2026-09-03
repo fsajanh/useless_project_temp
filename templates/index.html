@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crunch Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Crunch Sound Analyzer</h1>
+        <p>Click start to measure volume and get feedback.</p>
+
+        <div class="controls">
+            <button id="startBtn">Start Listening</button>
+            <button id="testBtn">Send Manual Payload</button>
+        </div>
+
+        <div id="output" class="output-box">
+            <p id="statusText">Status: Idle</p>
+            <p id="roastText">Feedback will appear here...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
