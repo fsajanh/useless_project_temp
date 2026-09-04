@@ -14,7 +14,7 @@
 - Member 2: [fathimasaja noorulhassan] - [model engineering college]
 
 ### Project Description
-[ever wondered if you are chewing too loud?this website literally tells you how embarising is your chewing noise]
+[ever wondered if you are chewing too loud?this website literally tells you how embarassing is your chewing noise]
 
 ### The Problem (that doesn't exist)
 [we create a problem for the solution ]
@@ -48,12 +48,12 @@ For Software:
 
 # Screenshots (Add at least 3)
 <img src="scshot1.jpeg"></img>
-*Add caption explaining what this shows*
+initial stage 
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img src="scshot2.jpeg"></img>
+website after modifications
 
-![Screenshot3](Add screenshot 3 here with proper name)
+
 *Add caption explaining what this shows*
 
 # Diagrams
@@ -81,8 +81,10 @@ For Hardware:
 
 ### Project Demo
 # Video
-[]
-*Explain what the video demonstrates*
+<img src="video1.mp4"></img>
+initial stage of the project
+
+<img src="video2.mp4"></img>
 
 # Additional Demos
 [Add any extra demo materials/links]
