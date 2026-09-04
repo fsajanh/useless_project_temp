@@ -31,12 +31,12 @@ def analyze_crunch():
             tier = 3
             roast = ""
             video = "crunch_v3.mp4"
-            audio = ""
+            audio = "tier4_dramatic.mp3"
         elif volume <= 80:
             tier = 4
             roast = ""
             video = "crunch_v4.mp4"
-            audio = "tier4_dramatic.mp3"
+            audio = ""
         else:
             tier = 5
             roast = "ennnni nee vaaayi thorrnnna"
