@@ -47,7 +47,7 @@ For Software:
 For Software:
 
 # Screenshots (Add at least 3)
-<img src="C:\Users\sujit\OneDrive\Desktop\scshot1.jpeg"></img>
+<img src="C:\Users\sujit\OneDrive\Desktop\navarasa\useless_project_temp\scshot1.jpeg"></img>
 *Add caption explaining what this shows*
 
 ![Screenshot2](Add screenshot 2 here with proper name)
