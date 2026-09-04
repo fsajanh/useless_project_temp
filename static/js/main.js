@@ -3,12 +3,20 @@ let analyser;
 let microphone;
 let isListening = false;
 let peakVolume = 0;
+let overlayCloseTimer = null;
 
 const startBtn = document.getElementById('startBtn');
 const testBtn = document.getElementById('testBtn');
 const statusText = document.getElementById('statusText');
 const roastText = document.getElementById('roastText');
 const meterFill = document.getElementById('meterFill');
+
+const roastOverlay = document.getElementById('roastOverlay');
+const roastVideo = document.getElementById('roastVideo');
+const overlayRoastText = document.getElementById('overlayRoastText');
+const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+
+const OVERLAY_DISPLAY_MS = 5000; // 5 seconds minimum on-screen time
 
 startBtn.addEventListener('click', async () => {
     if (!isListening) {
@@ -21,6 +29,8 @@ startBtn.addEventListener('click', async () => {
 testBtn.addEventListener('click', () => {
     sendVolumeData(Math.floor(Math.random() * 100));
 });
+
+closeOverlayBtn.addEventListener('click', closeOverlay);
 
 async function startMicrophone() {
     try {
@@ -42,6 +52,7 @@ async function startMicrophone() {
         startBtn.classList.add('listening');
         statusText.innerText = "Status: Listening... click Stop when done 🎧";
         roastText.innerText = "Go on, crunch away!";
+        roastText.style.display = 'block';
 
         function processAudio() {
             if (!isListening) return;
@@ -53,7 +64,14 @@ async function startMicrophone() {
                 sum += dataArray[i] * dataArray[i];
             }
             let rms = Math.sqrt(sum / bufferLength);
-            let volume = Math.min(100, Math.round((rms / 128) * 100));
+
+            // Noise gate: ignore very faint ambient noise entirely
+            if (rms < 8) {
+                rms = 0;
+            }
+
+            // Less sensitive scaling — needs real volume to approach 100
+            let volume = Math.min(100, Math.round((rms / 210) * 100));
 
             meterFill.style.width = volume + "%";
 
@@ -68,6 +86,7 @@ async function startMicrophone() {
         console.error('Microphone access denied or error:', err);
         statusText.innerText = 'Status: Microphone Access Denied';
         roastText.innerText = 'Please allow microphone access in your browser.';
+        roastText.style.display = 'block';
     }
 }
 
@@ -85,6 +104,7 @@ function finishListening() {
     } else {
         statusText.innerText = "Status: Didn't hear much 🤔";
         roastText.innerText = "Try crunching a bit louder next time!";
+        roastText.style.display = 'block';
     }
 }
 
@@ -97,16 +117,72 @@ async function sendVolumeData(volumeValue) {
             body: JSON.stringify({ volume: volumeValue })
         });
         const data = await response.json();
+
         if (response.ok && data.status === 'success') {
             statusText.innerText = `Status: Peak detected! (Volume: ${data.volume_received}) ✅`;
-            roastText.innerText = data.roast;
+            roastText.innerText = "";
+            roastText.style.display = 'none';
+
+            showOverlay(data);
+
+            document.body.classList.remove('shake-medium', 'shake-hard');
+            if (data.tier === 4) {
+                triggerShake('shake-medium');
+            } else if (data.tier === 5) {
+                triggerShake('shake-hard');
+            }
         } else {
             statusText.innerText = 'Status: Processing Error';
             roastText.innerText = data.message || 'Failed to analyze sound.';
+            roastText.style.display = 'block';
         }
     } catch (error) {
         console.error('Fetch error:', error);
         statusText.innerText = 'Status: Connection Error';
         roastText.innerText = 'Could not reach backend server.';
+        roastText.style.display = 'block';
     }
+}
+
+function showOverlay(data) {
+    if (data.roast && data.roast.trim() !== "") {
+        overlayRoastText.innerText = data.roast;
+        overlayRoastText.style.display = 'block';
+    } else {
+        overlayRoastText.innerText = "";
+        overlayRoastText.style.display = 'none';
+    }
+
+    if (data.video) {
+        roastVideo.src = `/static/videos/${data.video}`;
+        roastVideo.style.display = 'block';
+        roastVideo.currentTime = 0;
+        roastVideo.play().catch(() => {});
+    } else {
+        roastVideo.style.display = 'none';
+    }
+
+    roastOverlay.classList.add('active');
+
+    // Always stay on screen for at least 5 seconds, regardless of video length
+    if (overlayCloseTimer) {
+        clearTimeout(overlayCloseTimer);
+    }
+    overlayCloseTimer = setTimeout(closeOverlay, OVERLAY_DISPLAY_MS);
+}
+
+function closeOverlay() {
+    roastOverlay.classList.remove('active');
+    roastVideo.pause();
+    roastVideo.src = "";
+    if (overlayCloseTimer) {
+        clearTimeout(overlayCloseTimer);
+        overlayCloseTimer = null;
+    }
+}
+
+function triggerShake(className) {
+    document.body.classList.remove(className);
+    void document.body.offsetWidth;
+    document.body.classList.add(className);
 }

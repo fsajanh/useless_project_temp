@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>🌶️ Savala Kiri Kiri 🌶️</h1>
-        <p class="subtitle">Click start and crunch like nobody's watching.</p>
+        <p class="subtitle">Click start and crunch like nobody's watching... we're watching. 👀</p>
 
         <div class="controls">
             <button id="startBtn" class="pulse">🎤 Start Listening</button>
@@ -23,6 +23,15 @@
         <div id="output" class="output-box">
             <p id="statusText">Status: Idle</p>
             <p id="roastText">Feedback will appear here...</p>
+        </div>
+    </div>
+
+    <!-- Full-screen roast overlay -->
+    <div id="roastOverlay" class="roast-overlay">
+        <div class="overlay-content">
+            <video id="roastVideo" playsinline></video>
+            <h2 id="overlayRoastText" class="overlay-roast-text"></h2>
+            <button id="closeOverlayBtn" class="close-overlay-btn">✖ Close</button>
         </div>
     </div>
 

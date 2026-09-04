@@ -2,11 +2,10 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Enables cross-origin requests if frontend/backend run separately
+CORS(app)
 
 @app.route("/")
 def home():
-    # Renders the HTML template from templates/index.html
     return render_template("index.html")
 
 @app.route("/analyze-crunch", methods=["POST"])
@@ -18,18 +17,34 @@ def analyze_crunch():
 
         volume = float(data.get("volume", 0))
 
-        # Core logic: generate feedback based on detected volume
-        if volume > 80:
-            roast = "Are you chewing on gravel? Tone it down!"
-        elif volume > 40:
-            roast = "Decent crunch, but everyone in a 10-mile radius hears you."
+        # 5-tier roast + video system
+        if volume <= 20:
+            tier = 1
+            roast = "nalllla taste unnddd"
+            video = "crunch_v1.mp4"
+        elif volume <= 40:
+            tier = 2
+            roast = "kozhapilllla...saykkaam"
+            video = "crunch_v2.mp4"
+        elif volume <= 60:
+            tier = 3
+            roast = ""
+            video = "crunch_v3.mp4"
+        elif volume <= 80:
+            tier = 4
+            roast = ""
+            video = "crunch_v4.mp4"
         else:
-            roast = "Is that even a crunch? Try harder."
+            tier = 5
+            roast = "ennnni nee vaaayi thorrnnna"
+            video = "crunch_v5.mp4"
 
         return jsonify({
             "status": "success",
             "volume_received": volume,
-            "roast": roast
+            "tier": tier,
+            "roast": roast,
+            "video": video
         }), 200
 
     except Exception as e:
