@@ -17,34 +17,39 @@ def analyze_crunch():
 
         volume = float(data.get("volume", 0))
 
-        # 5-tier roast + video system
         if volume <= 20:
             tier = 1
             roast = "nalllla taste unnddd"
             video = "crunch_v1.mp4"
+            audio = ""
         elif volume <= 40:
             tier = 2
             roast = "kozhapilllla...saykkaam"
             video = "crunch_v2.mp4"
+            audio = ""
         elif volume <= 60:
             tier = 3
             roast = ""
             video = "crunch_v3.mp4"
+            audio = ""
         elif volume <= 80:
             tier = 4
             roast = ""
             video = "crunch_v4.mp4"
+            audio = "tier4_dramatic.mp3"
         else:
             tier = 5
             roast = "ennnni nee vaaayi thorrnnna"
             video = "crunch_v5.mp4"
+            audio = ""
 
         return jsonify({
             "status": "success",
             "volume_received": volume,
             "tier": tier,
             "roast": roast,
-            "video": video
+            "video": video,
+            "audio": audio
         }), 200
 
     except Exception as e:

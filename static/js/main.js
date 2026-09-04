@@ -15,8 +15,13 @@ const roastOverlay = document.getElementById('roastOverlay');
 const roastVideo = document.getElementById('roastVideo');
 const overlayRoastText = document.getElementById('overlayRoastText');
 const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+const overlayContent = document.getElementById('overlayContent');
+const countdownLeader = document.getElementById('countdownLeader');
+const countdownNum = document.getElementById('countdownNum');
+const vhsLines = document.querySelector('.vhs-lines');
+const tierAudio = document.getElementById('tierAudio');
 
-const OVERLAY_DISPLAY_MS = 5000; // 5 seconds minimum on-screen time
+const OVERLAY_DISPLAY_MS = 5000;
 
 startBtn.addEventListener('click', async () => {
     if (!isListening) {
@@ -65,14 +70,9 @@ async function startMicrophone() {
             }
             let rms = Math.sqrt(sum / bufferLength);
 
-            // Noise gate: ignore very faint ambient noise entirely
-            if (rms < 8) {
-                rms = 0;
-            }
+            if (rms < 8) rms = 0;
 
-            // Less sensitive scaling — needs real volume to approach 100
             let volume = Math.min(100, Math.round((rms / 210) * 100));
-
             meterFill.style.width = volume + "%";
 
             if (volume > peakVolume) {
@@ -123,7 +123,7 @@ async function sendVolumeData(volumeValue) {
             roastText.innerText = "";
             roastText.style.display = 'none';
 
-            showOverlay(data);
+            startCountdown(data);
 
             document.body.classList.remove('shake-medium', 'shake-hard');
             if (data.tier === 4) {
@@ -144,7 +144,29 @@ async function sendVolumeData(volumeValue) {
     }
 }
 
+function startCountdown(data) {
+    roastOverlay.classList.add('active');
+    overlayContent.style.display = 'none';
+    countdownLeader.classList.add('active');
+
+    let count = 3;
+    countdownNum.innerText = count;
+
+    const countdownInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            countdownNum.innerText = count;
+        } else {
+            clearInterval(countdownInterval);
+            countdownLeader.classList.remove('active');
+            showOverlay(data);
+        }
+    }, 700);
+}
+
 function showOverlay(data) {
+    overlayContent.style.display = 'flex';
+
     if (data.roast && data.roast.trim() !== "") {
         overlayRoastText.innerText = data.roast;
         overlayRoastText.style.display = 'block';
@@ -162,9 +184,20 @@ function showOverlay(data) {
         roastVideo.style.display = 'none';
     }
 
-    roastOverlay.classList.add('active');
+    // Play tier-specific audio (e.g. tier 4 dramatic mp3) alongside the video
+    if (data.audio) {
+        tierAudio.src = `/static/audio/${data.audio}`;
+        tierAudio.currentTime = 0;
+        tierAudio.play().catch(() => {});
+    } else {
+        tierAudio.pause();
+        tierAudio.src = "";
+    }
 
-    // Always stay on screen for at least 5 seconds, regardless of video length
+    fireConfetti();
+    vhsLines.classList.add('glitching');
+    setTimeout(() => vhsLines.classList.remove('glitching'), 400);
+
     if (overlayCloseTimer) {
         clearTimeout(overlayCloseTimer);
     }
@@ -173,12 +206,38 @@ function showOverlay(data) {
 
 function closeOverlay() {
     roastOverlay.classList.remove('active');
+    countdownLeader.classList.remove('active');
+    overlayContent.style.display = 'none';
     roastVideo.pause();
     roastVideo.src = "";
+    tierAudio.pause();
+    tierAudio.src = "";
     if (overlayCloseTimer) {
         clearTimeout(overlayCloseTimer);
         overlayCloseTimer = null;
     }
+}
+
+function fireConfetti() {
+    const burst = document.getElementById('confettiBurst');
+    burst.innerHTML = '';
+    burst.classList.remove('fire');
+
+    const colors = ['#d4a017', '#8b1a1a', '#4a6f85', '#f0e6d2', '#e8bc4a'];
+    for (let i = 0; i < 40; i++) {
+        const piece = document.createElement('span');
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 150 + Math.random() * 250;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        piece.style.setProperty('--tx', `${tx}px`);
+        piece.style.setProperty('--ty', `${ty}px`);
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        burst.appendChild(piece);
+    }
+    void burst.offsetWidth;
+    burst.classList.add('fire');
 }
 
 function triggerShake(className) {

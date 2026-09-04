@@ -3,17 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savala Kiri Kiri 🌶️</title>
+    <title>Savala Kiri Kiri 🎬</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>🌶️ Savala Kiri Kiri 🌶️</h1>
-        <p class="subtitle">Click start and crunch like nobody's watching... we're watching. 👀</p>
+    <div class="grain-overlay"></div>
+    <div class="splatter-overlay"></div>
+    <div class="sunburst-stripes"></div>
+
+    <div class="bulb-string"></div>
+
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
+
+    <div class="ticker-wrap">
+        <div class="ticker-track">
+            <span>🎬 ALWAYS TOP CRUNCHES &nbsp;&nbsp;★&nbsp;&nbsp; WORLD CRUNCH FESTIVAL &nbsp;&nbsp;★&nbsp;&nbsp; NIGHT SHOW SPECIAL &nbsp;&nbsp;★&nbsp;&nbsp; 🎬 ALWAYS TOP CRUNCHES &nbsp;&nbsp;★&nbsp;&nbsp; WORLD CRUNCH FESTIVAL &nbsp;&nbsp;★&nbsp;&nbsp; NIGHT SHOW SPECIAL &nbsp;&nbsp;★&nbsp;&nbsp;</span>
+        </div>
+    </div>
+
+    <div class="poster-card">
+        <div class="cert-badge">A</div>
+        <p class="top-strap">ALWAYS TOP CRUNCHES</p>
+
+        <div class="reel-row">
+            <div class="reel-decoration">🎞️</div>
+            <div class="clapper">🎬</div>
+        </div>
+
+        <h1 class="title-glow">
+            <span class="letter-stagger">SAVALA</span>
+            <span class="title-sub letter-stagger-sub">KIRI KIRI</span>
+        </h1>
+        <p class="festival-tag">— A CRUNCH FESTIVAL PRODUCTION —</p>
+        <p class="subtitle">"Oru Crunch... Aayiram Ormakal" — Click start and crunch like nobody's watching. 👀</p>
 
         <div class="controls">
-            <button id="startBtn" class="pulse">🎤 Start Listening</button>
-            <button id="testBtn">📡 Send Manual Payload</button>
+            <button id="startBtn" class="pulse retro-btn">🎤 START LISTENING</button>
+            <button id="testBtn" class="retro-btn blue-btn">📡 MANUAL PAYLOAD</button>
         </div>
 
         <div class="meter-wrap">
@@ -24,16 +51,41 @@
             <p id="statusText">Status: Idle</p>
             <p id="roastText">Feedback will appear here...</p>
         </div>
+
+        <div class="ticket-stub">
+            <span>CINEMA TICKET</span>
+            <span class="ticket-sub">ADMIT ONE &nbsp;•&nbsp; ROW 5 &nbsp;•&nbsp; SEAT 8</span>
+        </div>
+
+        <div class="ticket-perf"></div>
     </div>
 
-    <!-- Full-screen roast overlay -->
     <div id="roastOverlay" class="roast-overlay">
-        <div class="overlay-content">
-            <video id="roastVideo" playsinline></video>
+        <div class="spotlight"></div>
+        <div class="spotlight-beam"></div>
+        <div class="vhs-lines"></div>
+        <div class="confetti-burst" id="confettiBurst"></div>
+
+        <div class="countdown-leader" id="countdownLeader">
+            <div class="countdown-circle">
+                <span id="countdownNum">3</span>
+            </div>
+            <p class="countdown-label">STARTING...</p>
+        </div>
+
+        <div class="overlay-content" id="overlayContent" style="display:none;">
+            <div class="tv-frame">
+                <div class="tv-knobs"><span></span><span></span></div>
+                <div class="overlay-frame">
+                    <video id="roastVideo" playsinline></video>
+                </div>
+            </div>
             <h2 id="overlayRoastText" class="overlay-roast-text"></h2>
-            <button id="closeOverlayBtn" class="close-overlay-btn">✖ Close</button>
+            <button id="closeOverlayBtn" class="close-overlay-btn">✖ CUT!</button>
         </div>
     </div>
+
+    <audio id="tierAudio" preload="auto"></audio>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
