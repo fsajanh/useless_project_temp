@@ -184,7 +184,6 @@ function showOverlay(data) {
         roastVideo.style.display = 'none';
     }
 
-    // Play tier-specific audio (e.g. tier 4 dramatic mp3) alongside the video
     if (data.audio) {
         tierAudio.src = `/static/audio/${data.audio}`;
         tierAudio.currentTime = 0;
