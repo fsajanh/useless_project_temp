@@ -10,9 +10,8 @@
 
 
 ### Team Members
-- Team Lead: [alka sujith] - [model engineering college]
+- Member 1: [alka sujith] - [model engineering college]
 - Member 2: [fathimasaja noorulhassan] - [model engineering college]
-- Member 3: [Name] - [College]
 
 ### Project Description
 [ever wondered if you are chewing too loud?this website literally tells you how embarising is your chewing noise]
@@ -25,7 +24,7 @@
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
+- [Python,javascript,css]
 - [Frameworks used]
 - [Libraries used]
 - [Tools used]
@@ -38,7 +37,8 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-[commands]
+[pip install flask]
+[pip install flask cors]
 
 # Run
 [commands]
@@ -47,7 +47,7 @@ For Software:
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
+<img src="C:\Users\sujit\OneDrive\Desktop\scshot1.jpeg"></img>
 *Add caption explaining what this shows*
 
 ![Screenshot2](Add screenshot 2 here with proper name)
@@ -81,7 +81,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[]
 *Explain what the video demonstrates*
 
 # Additional Demos
